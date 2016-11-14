@@ -6,16 +6,11 @@ var db = new Sequelize('postgres://localhost:5432/wikistack', {
 var Page = db.define('page', {
     title: {
         type: Sequelize.STRING,
-        allowNull: false,
-	    set      : function(val) {
-	      this.setDataValue('title', val.toUpperCase());
-	    }
-
+        allowNull: false
     },
     urlTitle: {
         type: Sequelize.STRING,
         allowNull: false,
-
     },
     content: {
         type: Sequelize.TEXT,
@@ -27,14 +22,13 @@ var Page = db.define('page', {
     date: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
-    },
-    route: {
-	    get      : function()  {
-	      var title = this.getDataValue('title');
-	      // 'this' allows you to access attributes of the instance
-	      return this.getDataValue('name') + ' (' + title + ')';
-	    },
     }
+}, {
+    getterMethods : {
+        route: function() { return '/wiki/' + this.urlTitle }
+    }
+
+
 });
 
 var User = db.define('user', {

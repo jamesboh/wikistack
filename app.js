@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var nunjucks = require('nunjucks');
 var models = require('./models');
-
+var wikiRouter = require('./routes/wiki');
 
 var app = express();
 
@@ -15,6 +15,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/wiki', wikiRouter);
 
 
 // point nunjucks to the directory containing templates and turn off caching; configure returns an Environment 
